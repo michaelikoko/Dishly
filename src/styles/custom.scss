@@ -1,0 +1,106 @@
+// Custom.scss
+// Option A: Include all of Bootstrap
+
+// Include any default variable overrides here (though functions won't be available)
+
+$font-family-base: 'Poppins', 'Roboto', sans-serif;
+
+
+$primary: #ED6A5A; // Site Primary Color
+$secondary: #1B998B; // Site Secondary Color
+$dark: #2E3532; // Site Dark Color
+$light: #E0E2DB; // Site Light Color
+
+@import "../../node_modules/bootstrap/scss/bootstrap";
+
+// Then add additional custom code here
+main {
+  min-height: 100vh;
+}
+
+.recipe-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+  /* Prevent the zoomed image from spilling out */
+  position: relative;
+}
+
+.recipe-card:hover {
+  transform: translateY(-3.5px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+}
+
+.recipe-card-img {
+  transition: transform 0.4s ease;
+  width: 100%;
+  height: 220px;
+  display: block;
+  object-fit: cover;
+}
+
+.recipe-card:hover .recipe-card-img {
+  transform: scale(1.2);
+  /* Zoom effect */
+}
+
+/* Optional: maintain consistent layout even on hover */
+.recipe-card-body {
+  position: relative;
+  z-index: 2;
+  background-color: #fff;
+  /* ensures text always legible */
+}
+
+.bullet-primary {
+  list-style: none;
+  /* Remove default bullets */
+}
+
+.bullet-primary li::before {
+  content: "\2022";
+  /* Unicode for a bullet point */
+  color: $primary;
+  font-weight: bold;
+  display: inline-block;
+  /* For spacing control */
+  width: 1em;
+  /* Adjust as needed */
+  margin-left: -1em;
+  /* Adjust for alignment */
+}
+
+.hover:hover {
+  cursor: pointer;
+}
+
+.dropdown-toggle::after {
+  display: none !important;
+}
+
+/* Delete button overlay */
+.delete-btn {
+  top: 8px;
+  right: 8px;
+  background-color: $dark;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  padding: 6px 8px;
+  z-index: 3;
+  transition: background-color 0.2s ease;
+}
+
+.delete-btn:hover {
+  background-color: $primary; // matches your $primary
+  color: white;
+}
+
+.delete-btn i {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+textarea {
+  resize: none;
+}
