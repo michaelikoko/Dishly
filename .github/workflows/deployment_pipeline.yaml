@@ -1,0 +1,49 @@
+name: Deployment Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize]
+
+env:
+  SKIP: ${{ contains(join(github.event.head_commit.message), '#skip') }}
+
+jobs:
+  deployment_pipeline_job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v5
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Check Code Style
+        run: npm run eslint
+
+      - name: Run Tests
+        run: npm run test
+
+      - name: Build Application
+        run: npm run build
+
+  tag_release_job:
+    needs: [deployment_pipeline_job]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v5
+
+      - name: Bump Version and Create Tag
+        if: ${{ env.SKIP != 'true' && github.event_name == 'push' && needs.deployment_pipeline_job.result == 'success' }}
+        uses: anothrNick/github-tag-action@1.75.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
+          DEFAULT_BUMP: patch
