@@ -34,6 +34,10 @@ jobs:
       - name: Build Application
         run: npm run build
 
+      - if: ${{ env.SKIP != 'true' && github.event_name == 'push' }}
+        name: Trigger Deployment
+        run: curl https://api.render.com/deploy/srv-${{ secrets.RENDER_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }}
+        
   tag_release_job:
     needs: [deployment_pipeline_job]
     runs-on: ubuntu-latest
