@@ -4,7 +4,6 @@ import PassportHttp from 'passport-http'
 import { SECRET } from '../utils/config.js'
 import UserModel from '../models/user.model.js'
 import { comparePassword } from '../utils/helper.js'
-import _ from 'mongoose-paginate-v2'
 
 const options = {
   jwtFromRequest: PassportJWT.ExtractJwt.fromAuthHeaderAsBearerToken(),
